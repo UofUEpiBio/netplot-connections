@@ -1,0 +1,63 @@
+% https://ctan.math.washington.edu/tex-archive/macros/latex/contrib/apa7/apa7.pdf
+ 
+\documentclass[jou,floatsintext]{apa7}
+
+\usepackage{lipsum}
+
+\usepackage[american]{babel}
+
+\usepackage{csquotes}
+\usepackage[style=apa,sortcites=true,sorting=nyt,backend=biber]{biblatex}
+\DeclareLanguageMapping{american}{american-apa}
+\addbibresource{bibliography.bib}
+
+\title{Network visualization in R using the netplot package}
+\shorttitle{Sample Document}
+
+\authorsnames[{1,2},2]{Porter Bischoff, George G. {Vega Yon}}
+\authorsaffiliations{Utah Valley University, University of Utah}
+
+\leftheader{Weiss}
+
+\abstract{\lipsum[1]}
+
+\keywords{APA style, demonstration}
+
+\authornote{
+   \addORCIDlink{Daniel A. Weiss}{0000-0000-0000-0000}
+
+  Correspondence concerning this article should be addressed to Daniel A. Weiss, Department of Educational Psychology, Counseling and
+  Special Education, A University Somewhere, 123 Main St., Oneonta, NY
+  13820.  E-mail: daniel.weiss.led@gmail.com}
+
+\begin{document}
+\maketitle
+
+\section{Introduction}
+
+Background, what's out there (visualization tools,) why this is useful (because there are not that many detailed examples showing the code, talk about your experience in Sunbelt "what's the format of the data", look for papers talking about computing literacy) and our goal (start to finish network visualization: load the data, process it a little bit, and plot it).
+
+\section{Network visualization in a nutshell: Things to consider}
+
+Talk about the different aspects about network viz the user needs to consider: layout, vertex size, vertex colour, vertex shape, edges, edges width, etc. Talk about the different components and how can we use them (to represent what, for example.) The size of the network, and type of the network (egocentric, small, large, bipartite, etc.)
+
+In terms of the layouts, what are the things we need to consider (we can mention R packages that implement layouts in R).
+
+\section{Start to finish example}
+
+\subsection{Example 1}
+
+The school data
+
+\subsection{Example 2}
+
+The LTCF data
+
+\printbibliography
+
+\appendix
+
+
+
+\end{document}
+
