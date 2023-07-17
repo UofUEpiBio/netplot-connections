@@ -1,5 +1,5 @@
 ---
-title: "Untitled"
+title: "Paper"
 format:
   pdf:
     documentclass: apa7
@@ -43,21 +43,37 @@ keep-tex: true
 
 <!--   13820.  E-mail: daniel.weiss.led@gmail.com} -->
 
-## Introduction
+# Introduction
 
 Background, what's out there (visualization tools,) why this is useful (because there are not that many detailed examples showing the code, talk about your experience in Sunbelt "what's the format of the data", look for papers talking about computing literacy) and our goal (start to finish network visualization: load the data, process it a little bit, and plot it).
 
-## Network visualization in a nutshell: Things to consider
+# Network visualization in a nutshell: Things to consider
 
-Talk about the different aspects about network viz the user needs to consider: layout, vertex size, vertex colour, vertex shape, edges, edges width, etc. Talk about the different components and how can we use them (to represent what, for example.) The size of the network, and type of the network (egocentric, small, large, bipartite, etc.)
+*Talk about the different aspects about network viz the user needs to consider: layout, vertex size, vertex colour, vertex shape, edges, edges width, etc. Talk about the different components and how can we use them (to represent what, for example.) The size of the network, and type of the network (egocentric, small, large, bipartite, etc.)*
 
-In terms of the layouts, what are the things we need to consider (we can mention R packages that implement layouts in R).
+*In terms of the layouts, what are the things we need to consider (we can mention R packages that implement layouts in R).*
 
-## Start to finish example
+Network visualization has many aspects that need to be taken into consideration to make the visualization effective in getting the necessary information across. One aspect that to consider is the layout of the data.
 
-### Example 1: School data
+- Vertex Size:
+Another aspect to consider is the size of the vertices. 
 
-#### Cleaning Data 
+- Vertex color:
+The color of the vertex is also an important consideration. Color can make make objects look more visually appealing, but it can also be useful in differentiation in objects or levels of an object (Ognyanova, 2019). It can also assist in visualizing grouping and pattern or cluster detection (Tyner, 2017)
+
+- Vertex shape:
+
+- Edges:
+
+- Edge width:
+
+
+
+# Start to finish example
+
+## Example 1: School data
+
+### Cleaning Data 
 
 First, the data needs to be pulled in. It can be found at (INSERT LINK HERE). After we pull it in, let's get a glimpse of what the data looks like.
 
@@ -140,13 +156,14 @@ Finally, we plot it, effectively showing this network graph.
 #| message: false
 
 ## Plot with no isolates
+set.seed(3)
 nplot(
   net_with_no_isolates
 ) 
 ```
 
 
-#### Vertex Options 
+### Vertex Options 
 Here, we are taking the data set and the plot, letting us customize a number of aspects of the graph. First, in order to work with the "color_nodes" function, we need to make "grade" a factor instead of being numeric. Also, we identify the colors we would like the nodes to be.
 ```{r}
 #| echo: true
@@ -159,7 +176,7 @@ Here, we are taking the data set and the plot, letting us customize a number of 
 V(net_with_no_isolates)$grade <-  as.factor(V(net_with_no_isolates)$grade)  
 
 # plotting connections among grades ####
-set.seed(77) 
+set.seed(3) 
 
 a_colors <- color_nodes(net_with_no_isolates,"grade", c("gray40","red3"))
 attr(a_colors, "map")
@@ -182,6 +199,7 @@ Now, we are able to create a plot of the data. This is the same data that we use
 #| warning: false
 #| message: false
 
+set.seed(3)
 grades <- nplot(
   net_with_no_isolates,
   vertex.color = color_nodes(net_with_no_isolates, "grade", c("gray40","red3")),
@@ -208,8 +226,6 @@ This looks good, but lets alternate these parameters we just gave to make things
 
 - Adjust `vertex.frame.color` to give an outline of each vertex.
 
-- Adjust `bg.col` to give a background color to the graph.
-
 ```{r}
 #| echo: true
 #| include: true
@@ -223,6 +239,7 @@ library(RColorBrewer)
 # Create a color palette using RColorBrewer
 palette <- brewer.pal(3, "Set1")  # Change the number and palette name as needed
 
+set.seed(3)
 grades <- nplot(
   net_with_no_isolates,
   vertex.color           = color_nodes(net_with_no_isolates, "grade", palette),
@@ -230,24 +247,120 @@ grades <- nplot(
   vertex.size.range      = c(0.01, 0.011),
   vertex.label.fontsize  = 10,
   vertex.label.show      = .25,
-  vertex.frame.color     = "black",
-  bg.col                 = "mistyrose")
+  vertex.frame.color     = "black")
 
 print(grades)
 
 ```
 
-#### Edge Options
+### Edge Options
 Now that we have explored a bit about vertices, let's dive into options related to edges. 
 
 - Change `edge.width.range` to make the size of the edges wider or thinner. 
 
 - Change `edge.arrow.size` to add arrows to the graph. 
+
+- Change `edge.color` to blue.
+
+- Change `edge.color.alpha` to adjust transparency. 
 ```{r}
+#| echo: true
+#| include: true
+#| label: grade_edges1
+#| warning: false
+#| message: false
+
+set.seed(3)
 grades <- nplot(
   net_with_no_isolates,
-  edge.width.range = c(.9,1))
+  vertex.label=NULL,
+  edge.width.range = c(.25,1),
+  edge.arrow.size  = 100,
+  edge.color = "dodgerblue4",
+  edge.color.alpha = .33)
 
 print(grades)
+```
+
+Now, let's adjust everything again, showing some of the things that `netplot` can do with edges.
+
+- Adjust `edge.color` so that edges correspond to vertices on a gradient.
+
+- Adjust `edge.curvature` to make edges a straight line. 
+
+- Adjust `edge.line.lty` to make edges long dashes.
+
+```{r}
+#| echo: true
+#| include: true
+#| label: grade_edges2
+#| warning: false
+#| message: false
+
+set.seed(3)
+grades <- nplot(
+  net_with_no_isolates,
+  vertex.label=NULL,
+  edge.width.range = c(1,1),
+  vertex.color = color_nodes(net_with_no_isolates, "grade", c("blue","red3")),
+  edge.color = ~ego(alpha = 0.5) + alter(alpha = 0.5),
+  edge.curvature = 0,
+  edge.line.lty = 5)
+  
+  
+print(grades)
+```
+
+### Other Options
+
+Using the same plot that we originally created, we can also adjust some of the aspects outside of vertices and edges. 
+
+- Adjust `bg.col` to make background color slate gray.
+
+- Adjust `sample.edges` to select a proportion of the edges. 
+
+- Adjust `skip.vertex` to not plot vertices at all. 
+
+```{r}
+#| echo: true
+#| include: true
+#| label: plot_other1
+#| warning: false
+#| message: false
+
+## Plot with no isolates
+set.seed(3)
+nplot(
+  net_with_no_isolates,
+  vertex.label=NULL,
+  bg.col = "slategray1",
+  #skip.vertex = TRUE,
+  sample.edges = .5) 
+```
+
+We can adjust things to get a different outcome. 
+
+- Adjust `skip.edges` to remove edges altogether. 
+
+- Adjust `bg.col` to misty rose.
+
+- Adjust `zero.margins` to true.
+
+```{r}
+#| echo: true
+#| include: true
+#| label: plot_other2
+#| warning: false
+#| message: false
+
+## Plot with no isolates
+set.seed(3)
+nplot(
+  net_with_no_isolates,
+  vertex.label=NULL,
+  skip.edges = TRUE,
+  bg.col = "mistyrose",
+  zero.margins = TRUE
+  ) 
 ```
 
