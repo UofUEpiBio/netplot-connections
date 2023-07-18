@@ -59,7 +59,7 @@ Network visualization has many aspects that need to be taken into consideration 
 Another aspect to consider is the size of the vertices. 
 
 - Vertex color:
-The color of the vertex is also an important consideration. Color can make make objects look more visually appealing, but it can also be useful in differentiation in objects or levels of an object (Ognyanova, 2019). It can also assist in visualizing grouping and pattern or cluster detection (Tyner, 2017)
+The color of the vertex is also an important consideration. Color can make make objects look more visually appealing, but it can also be useful in differentiation in objects or levels of an object (Ognyanova, 2019). It can also assist in visualizing grouping and patterns or cluster detection (Tyner, 2017)
 
 - Vertex shape:
 
@@ -69,13 +69,17 @@ The color of the vertex is also an important consideration. Color can make make 
 
 
 
-# Start to finish example
+# Start to finish examples
 
-## Example 1: School data
+## *Example 1: School data*
+
+For the first example, we will use a data set from the paper titled "Estimates of Social Contact in a Middle School Based on Self-Report and Wireless Sensor Data" by Leecaster et al. The data set we are using explores 7th and 8th grade students, and we will focus on the connections between those students. We have identifiers such as gender, lunch period, and grade that we can work with. 
+
+We will use this data set to explore what `netplot` can do in terms of data visualization. 
 
 ### Cleaning Data 
 
-First, the data needs to be pulled in. It can be found at (INSERT LINK HERE). After we pull it in, let's get a glimpse of what the data looks like.
+First, the data needs to be pulled in. After we pull it in, let's get a glimpse of what the data looks like.
 
 ```{r}
 #| echo: true
@@ -93,8 +97,8 @@ library(netplot)
 
 
 # loading and cleaning data
-students <- fread("./data/middle_school/pone.0153690.s001.csv")
-interactions <- fread("./data/middle_school/pone.0153690.s003.csv")
+students      <- fread("./data/middle_school/pone.0153690.s001.csv")
+interactions  <- fread("./data/middle_school/pone.0153690.s003.csv")
 
 print(students)
 print(interactions)
@@ -110,19 +114,19 @@ In order to use the data, we need to remove all of the 'N/A's and miscoding in t
 #| message: false
 
 # filtering out 'N/A's in the 'students' data frame
-students <- students[!is.na(id)]
+students       <- students[!is.na(id)]
 
 # filtering down to gender being "0" or "1"
-students <- students[gender %in% c("0", "1")]
+students       <- students[gender %in% c("0", "1")]
 
 # filter out 'N/A's in 'id' and 'contactId' 
-interactions <- interactions[!is.na(id) & !is.na(contactId)]
+interactions   <- interactions[!is.na(id) & !is.na(contactId)]
 
 # Which connections are not OK?
-ids <- sort(unique(students$id))
+ids            <- sort(unique(students$id))
 
 # narrowed our data from 10781 to 5150
-interactions <- interactions[(id %in% ids) & (contactId %in% ids)]
+interactions   <- interactions[(id %in% ids) & (contactId %in% ids)]
 
 source(file = "./misc/color_nodes_function.R")
 ```
@@ -137,13 +141,13 @@ After, the two datasets need to be combined together.
 #| message: false
 
 ## Creating matrix from datasets
-net <- graph_from_data_frame(
-  d = interactions[, .(id, contactId)],
-  directed = FALSE, vertices = as.data.frame(students)
-)
+net                   <- graph_from_data_frame(
+                          d = interactions[, .(id, contactId)],
+                          directed = FALSE, vertices = as.data.frame(students)
+                        )
 
 ## Getting only connected individuals
-net_with_no_isolates <- induced_subgraph(net, which(degree(net) > 0))
+net_with_no_isolates  <- induced_subgraph(net, which(degree(net) > 0))
 ```
 
 
@@ -178,7 +182,7 @@ V(net_with_no_isolates)$grade <-  as.factor(V(net_with_no_isolates)$grade)
 # plotting connections among grades ####
 set.seed(3) 
 
-a_colors <- color_nodes(net_with_no_isolates,"grade", c("gray40","red3"))
+a_colors                      <- color_nodes(net_with_no_isolates,"grade", c("gray40","red3"))
 attr(a_colors, "map")
 ```
 
@@ -200,12 +204,12 @@ Now, we are able to create a plot of the data. This is the same data that we use
 #| message: false
 
 set.seed(3)
-grades <- nplot(
-  net_with_no_isolates,
-  vertex.color = color_nodes(net_with_no_isolates, "grade", c("gray40","red3")),
-  vertex.nsides = ifelse(V(net_with_no_isolates)$grade == 7, 10, 3),
-  vertex.size.range = c(0.015, 0.020),
-  vertex.label=NULL)
+grades   <- nplot(
+             net_with_no_isolates,
+             vertex.color         = color_nodes(net_with_no_isolates, "grade", c("gray40","red3")),
+             vertex.nsides        = ifelse(V(net_with_no_isolates)$grade == 7, 10, 3),
+             vertex.size.range    = c(0.015, 0.020),
+             vertex.label         = NULL)
 
 print(grades)
 ```
@@ -258,8 +262,6 @@ Now that we have explored a bit about vertices, let's dive into options related 
 
 - Change `edge.width.range` to make the size of the edges wider or thinner. 
 
-- Change `edge.arrow.size` to add arrows to the graph. 
-
 - Change `edge.color` to blue.
 
 - Change `edge.color.alpha` to adjust transparency. 
@@ -275,7 +277,6 @@ grades <- nplot(
   net_with_no_isolates,
   vertex.label=NULL,
   edge.width.range = c(.25,1),
-  edge.arrow.size  = 100,
   edge.color = "dodgerblue4",
   edge.color.alpha = .33)
 
@@ -319,8 +320,6 @@ Using the same plot that we originally created, we can also adjust some of the a
 
 - Adjust `sample.edges` to select a proportion of the edges. 
 
-- Adjust `skip.vertex` to not plot vertices at all. 
-
 ```{r}
 #| echo: true
 #| include: true
@@ -334,7 +333,6 @@ nplot(
   net_with_no_isolates,
   vertex.label=NULL,
   bg.col = "slategray1",
-  #skip.vertex = TRUE,
   sample.edges = .5) 
 ```
 
@@ -362,5 +360,169 @@ nplot(
   bg.col = "mistyrose",
   zero.margins = TRUE
   ) 
+```
+
+### Conclusion
+The middle school data set provides a basis where we can see what `netplot` can do. There are options to adjust the vertices, edges, and even other parameters. 
+
+## *Example 2: Healthcare data*
+This data set comes from "Assessing Pathogen Transmission Opportunities: Variation in Nursing Home Staff-Resident Interactions" by Chang et. al. It explores connections in a number of nursing homes across 7 states between patients and healthcare providers. There are 99 networks in the data set.
+
+With this data, we will explore how multiple smaller networks can work together to tell a story and can be plotted using `netplot`. 
+
+### Cleaning Data 
+First, the data needs to be loaded in, with the requisite packages we will be using. 
+
+```{r}
+#| echo: true
+#| include: true
+#| label: packages2
+#| warning: false
+#| message: false
+
+# attaching packages
+library(network)
+library(devtools)
+install_github("USCCANA/netplot")
+library(netplot)
+
+data <- load("./data/nursing_home/network99_f1.RData")  
+```
+Following, we are now ready to plot the data, as it is already in the correct, cleaned format. First, let's pull the first and the second networks alone so we can have a closer look at them. 
+
+```{r}
+#| echo: true
+#| include: true
+#| label: for_loop_1-2
+#| warning: false
+#| message: false
+#| cache: true
+
+# Creates an empty list to store the networks
+nets <- list()
+
+# Sets a seed for reproducibility
+set.seed(1231)
+
+for (i in 1:2) {  # Change the loop range to 1:2
+  # Checks if the vertex "is_actor" exists in the network
+  is_health_care_provider <- networks[[i]] %v% "is_actor"
+  nets[[i]] <- nplot(
+    networks[[i]],
+    # Colors the vertices gray if HCP exists, red otherwise
+    vertex.color = ifelse(is_health_care_provider, "gray40", "red3"),
+    # Makes vertices square if HCP exists, round otherwise
+    vertex.nsides = ifelse(is_health_care_provider == TRUE, 4, 10),
+    # Makes HCP vertices larger than patient vertices
+    vertex.size = ifelse(is_health_care_provider == TRUE, .25, .15),
+    vertex.size.range = c(.015, .065),
+    edge.width.range = c(.25, .5),
+    # Sets edge line breaks to 1 and colors edges black
+    edge.line.breaks = 1,
+    edge.color = ~ego(alpha = 1, col = "lightgray") + alter(alpha = 1, col = "lightgray"),
+    edge.curvature = pi / 6,
+    # Removes vertex labels
+    vertex.label = NULL
+  )
+}
+
+# Combines the 2 plots into a 1x2 grid
+allgraphs <- gridExtra::grid.arrange(grobs = nets, nrow = 1, ncol = 2)
+
+```
+Here, the healthcare provider is represented by gray diamonds, while the patients are represented by red circles. 
+
+Much like the previous example, we can use the different aspects of `netplot` to adjust how the graph looks. 
+
+- Adjust `vertex.color` so providers are purple instead of gray and patients are pink instead of red.
+
+- Adjust `vertex.nsides` so providers are triangles and patients are hexagons. 
+
+- Adjust `edge.line.breaks`to make the edges curved instead of straight. 
+
+- Adjust `edge.color` so edges are now black instead of gray.
+  
+  - Adjust `alpha` so the black is slightly transparent. 
+
+- Adjust `edge.curvature` to make the edges more curved. 
+
+```{r}
+#| echo: true
+#| include: true
+#| label: for_loop_1-2_example
+#| warning: false
+#| message: false
+#| cache: true
+
+# Creates an empty list to store the networks
+nets <- list()
+
+# Sets a seed for reproducibility
+set.seed(1231)
+
+for (i in 1:2) {  # Change the loop range to 1:2
+  # Checks if the vertex "is_actor" exists in the network
+  is_health_care_provider <- networks[[i]] %v% "is_actor"
+  nets[[i]] <- nplot(
+    networks[[i]],
+    # Colors the vertices gray if HCP exists, red otherwise
+    vertex.color = ifelse(is_health_care_provider, "purple", "pink"),
+    # Makes vertices square if HCP exists, round otherwise
+    vertex.nsides = ifelse(is_health_care_provider == TRUE, 3, 6),
+    # Makes HCP vertices larger than patient vertices
+    vertex.size = ifelse(is_health_care_provider == TRUE, .25, .15),
+    vertex.size.range = c(.015, .065),
+    edge.width.range = c(.25, .5),
+    # Sets edge line breaks to 1 and colors edges black
+    edge.line.breaks = 6,
+    edge.color = ~ego(alpha = .8, col = "black") + alter(alpha = .8, col = "black"),
+    edge.curvature = pi / 3,
+    # Removes vertex labels
+    vertex.label = NULL
+  )
+}
+
+# Combines the 2 plots into a 1x2 grid
+allgraphs <- gridExtra::grid.arrange(grobs = nets, nrow = 1, ncol = 2)
+
+```
+
+Now that we understand what these networks look like at a closer level, we can plot them all for comparison. 
+
+```{r}
+#| echo: true
+#| include: true
+#| label: for_loop_1-99
+#| warning: false
+#| message: false
+#| cache: true
+
+# Creates an empty list to store the networks
+nets <- list()  
+
+# Sets a seed for reproducibility 
+set.seed(1231)  
+
+for (i in 1:99) { 
+  # Checks if the vertex "is_actor" exists in the network
+  is_health_care_provider <- networks[[i]] %v% "is_actor"  
+  nets[[i]] <- nplot( networks[[i]], 
+                      # Colors the vertices gray if HCP exists, red otherwise
+                      vertex.color     = ifelse(is_health_care_provider, "gray40", "red3"),  
+                      # Makes vertices square if HCP exists, round otherwise
+                      vertex.nsides    = ifelse(is_health_care_provider == TRUE, 4, 10),
+                      # Makes HCP vertices larger than patient vertices
+                      vertex.size      = ifelse(is_health_care_provider == TRUE, .25, .15),
+                      vertex.size.range = c(.015,.065),
+                      edge.width.range = c(.25,.5),
+                      # Sets edge line breaks to 1 and colors edges black  
+                      edge.line.breaks = 1, edge.color = ~ ego(alpha = 1, col = "lightgray") +    alter(alpha = 1, col = "lightgray"),
+                      edge.curvature = pi/6,
+                      # Removes vertex labels
+                      vertex.label     = NULL )
+}
+
+# Combines the 99 plots into an 11x9 grid
+allgraphs <- gridExtra::grid.arrange(grobs = nets, nrow=11, ncol=9) 
 ```
 
