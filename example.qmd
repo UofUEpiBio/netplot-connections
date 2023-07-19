@@ -5,6 +5,7 @@ format:
     documentclass: apa7
 editor: visual
 keep-tex: true
+bibliography: bibliography.bib
 ---
 
 <!-- \usepackage{lipsum} -->
@@ -71,37 +72,40 @@ The color of the vertex is also an important consideration. Color can make make 
 
 # Start to finish examples
 
+In this section, we will present two full-length examples of network visualization. In both, we will start with raw data sets, walking through how to read and process the data and how to build a visualization step by step. Throughout the paper, we will use the **igraph** [@igraph;@csardi2006igraph], **data.table** [@datable], and **netplot** [@netplot] R packages. We start by loading those packages
+
+```{r}
+#| echo: true
+#| label: packages
+#| warning: false
+#| message: false
+library(igraph)
+library(data.table)
+library(netplot)
+```
+
 ## *Example 1: School data*
 
-For the first example, we will use a data set from the paper titled "Estimates of Social Contact in a Middle School Based on Self-Report and Wireless Sensor Data" by Leecaster et al. The data set we are using explores 7th and 8th grade students, and we will focus on the connections between those students. We have identifiers such as gender, lunch period, and grade that we can work with. 
+For the first example, we will use a data set from the paper titled "Estimates of Social Contact in a Middle School Based on Self-Report and Wireless Sensor Data" by Leecaster et al., which features the social networks of 7th and 8th-grade students. We have identifiers such as gender, lunch period, and grade, which we will use for building our visualization. 
 
-We will use this data set to explore what `netplot` can do in terms of data visualization. 
 
 ### Cleaning Data 
 
-First, the data needs to be pulled in. After we pull it in, let's get a glimpse of what the data looks like.
+First, the data needs to be pulled in. After we pull it in, let's glimpse what the data looks like.
 
 ```{r}
 #| echo: true
 #| include: true
-#| label: packages
+#| label: reading
 #| warning: false
 #| message: false
-
-# attaching packages
-library(igraph)
-library(data.table)
-library(devtools)
-install_github("USCCANA/netplot")
-library(netplot)
-
 
 # loading and cleaning data
 students      <- fread("./data/middle_school/pone.0153690.s001.csv")
 interactions  <- fread("./data/middle_school/pone.0153690.s003.csv")
 
-print(students)
-print(interactions)
+head(students)
+head(interactions)
 ```
 
 
@@ -382,12 +386,10 @@ First, the data needs to be loaded in, with the requisite packages we will be us
 
 # attaching packages
 library(network)
-library(devtools)
-install_github("USCCANA/netplot")
-library(netplot)
 
 data <- load("./data/nursing_home/network99_f1.RData")  
 ```
+
 Following, we are now ready to plot the data, as it is already in the correct, cleaned format. First, let's pull the first and the second networks alone so we can have a closer look at them. 
 
 ```{r}
