@@ -56,12 +56,11 @@ Background, what's out there (visualization tools,) why this is useful (because 
 
 - Layouts:
   - Circle: Graph is "paritioned into clusters", and each cluster is placed on a circle with straight edges between the vertices (Six, 1999). Works well for showing biconnectivity and subnetworks. Number of edges needs to be relatively low to be effective. (Six, 1999).
-  - DRL: https://www.osti.gov/biblio/1231060
+  - DrL (Distributed Recursive Layout: 2d visualization, very large abstract data sources. Uses multilevel force algorithm based on simulated annealing (Martin, 2007)
   - Frucheterman-Reingold: force directed. Just like every other layout algorithm, uses vertices and edges. Analogous to atomic bodies and repulsion and attraction (Fruchterman & Reingold 1991). Another analogy, edges are treated like springs and vertices are moved close or further in order to minimize "energy" of the system (Hansen, 2011). Works well for large social networks (Hansen 2020).
-  - KK
+  - Kamada Kawai: used for undirected graphs. used in network structures. Uses a spring algorithm. spring algorithm helps create symmetric drawings, small number of edge crossings, and congruent drawings of isomorphic graphs (Kamada & Kawai, 1989). does a great job at using local minima, minimize distances in the graph, computes quickly (SCImago, 2007).
   - LGL
-  - Sphere:
-  
+
 
 - Vertex Size:
 Another aspect to consider is the size of the vertices. 
