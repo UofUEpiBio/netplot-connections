@@ -52,14 +52,7 @@ Background, what's out there (visualization tools,) why this is useful (because 
 
 *Talk about the different aspects about network viz the user needs to consider: layout, vertex size, vertex colour, vertex shape, edges, edges width, etc. Talk about the different components and how can we use them (to represent what, for example.) The size of the network, and type of the network (egocentric, small, large, bipartite, etc.)*
 
-*In terms of the layouts, what are the things we need to consider (we can mention R packages that implement layouts in R).*
-
-- Layouts:
-  - Circle: Graph is "paritioned into clusters", and each cluster is placed on a circle with straight edges between the vertices (Six, 1999). Works well for showing biconnectivity and subnetworks. Number of edges needs to be relatively low to be effective. (Six, 1999).
-  - DrL (Distributed Recursive Layout: 2d visualization, very large abstract data sources. Uses multilevel force algorithm based on simulated annealing (Martin, 2007)
-  - Frucheterman-Reingold: force directed. Just like every other layout algorithm, uses vertices and edges. Analogous to atomic bodies and repulsion and attraction (Fruchterman & Reingold 1991). Another analogy, edges are treated like springs and vertices are moved close or further in order to minimize "energy" of the system (Hansen, 2011). Works well for large social networks (Hansen 2020).
-  - Kamada Kawai: used for undirected graphs. used in network structures. Uses a spring algorithm. spring algorithm helps create symmetric drawings, small number of edge crossings, and congruent drawings of isomorphic graphs (Kamada & Kawai, 1989). does a great job at using local minima, minimize distances in the graph, computes quickly (SCImago, 2007).
-  - LGL
+One of the important aspects of network visualization is the layout algorithm used to actually graph the networks. There are a number of popular graphing algorithms, and each of these have their own strengths and weaknesses. The “Circle” algorithm places clusters on a circle and creates straight lines between vertices (Six, 1999). It works well for showing bi-connectivity and subnetworks, and the number of edges needs to be relatively low to effectively show connections (Six, 1999). The DrL (Distributed Recursive Layout) employs a multilevel force algorithm that is based on simulated annealing, and it works well for large abstract datasets (Martin, 2007). The Fruchterman-Reingold layout algorithm uses vertices and edges as atomic bodies with repulsive and attractive forces to minimize the energy of the system (Fruchterman & Reingold, 1991) (Hansen, 2011), which benefits large social networks. The Kamada Kawai layout uses a spring algorithm to layout undirected graphs in a symmetric drawing with a minimum number of edge crossings, which works well for network structures (Kamada & Kawai, 1989). The LGL (Large-Graph Layout) is based on a mass-spring algorithm, using edges as springs to pull vertices together while a repulsive force prevents overlapping, making it highly effective for dense biological networks (Adai et. Al, 2004).
 
 
 - Vertex Size:
