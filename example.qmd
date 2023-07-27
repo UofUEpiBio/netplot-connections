@@ -50,24 +50,13 @@ Background, what's out there (visualization tools,) why this is useful (because 
 
 # Network visualization in a nutshell: Things to consider
 
-*Talk about the different aspects about network viz the user needs to consider: layout, vertex size, vertex colour, vertex shape, edges, edges width, etc. Talk about the different components and how can we use them (to represent what, for example.) The size of the network, and type of the network (egocentric, small, large, bipartite, etc.)*
+*Talk about the different aspects about network viz the user needs to consider: layout, vertex size, vertex colour, vertex shape, edges, edges width, etc. Talk about the different components and how can we use them (to represent what, for example.)*
+
+**The size of the network, and type of the network (egocentric, small, large, bipartite, etc.)**
 
 One of the important aspects of network visualization is the layout algorithm used to actually graph the networks. There are a number of popular graphing algorithms, and each of these have their own strengths and weaknesses. The “Circle” algorithm places clusters on a circle and creates straight lines between vertices (Six, 1999). It works well for showing bi-connectivity and subnetworks, and the number of edges needs to be relatively low to effectively show connections (Six, 1999). The DrL (Distributed Recursive Layout) employs a multilevel force algorithm that is based on simulated annealing, and it works well for large abstract datasets (Martin, 2007). The Fruchterman-Reingold layout algorithm uses vertices and edges as atomic bodies with repulsive and attractive forces to minimize the energy of the system (Fruchterman & Reingold, 1991) (Hansen, 2011), which benefits large social networks. The Kamada Kawai layout uses a spring algorithm to layout undirected graphs in a symmetric drawing with a minimum number of edge crossings, which works well for network structures (Kamada & Kawai, 1989). The LGL (Large-Graph Layout) is based on a mass-spring algorithm, using edges as springs to pull vertices together while a repulsive force prevents overlapping, making it highly effective for dense biological networks (Adai et. Al, 2004).
 
-
-- Vertex Size:
-Another aspect to consider is the size of the vertices. 
-
-- Vertex color:
-The color of the vertex is also an important consideration. Color can make make objects look more visually appealing, but it can also be useful in differentiation in objects or levels of an object (Ognyanova, 2019). It can also assist in visualizing grouping and patterns or cluster detection (Tyner, 2017)
-
-- Vertex shape:
-
-- Edges:
-
-- Edge width:
-
-
+Another aspect that must be considered is the graphing parameters. One aspect of graphing is vertex size, which can effectively convey varying weights and changes in information, as demonstrated by Zien (1999) and the study of Sharma and Chou (2022) where vertex size is determined by the number of outgoing edges. Additionally, vertex size can be employed to illustrate increases or decreases in data, such as counts, as observed by Knisley and Knisley (2014). The color of vertices is equally significant, not only for enhancing visual appeal but also for aiding in the differentiation of objects or levels, as discussed by Ognyanova (2019). Furthermore, vertex color can assist in visualizing groupings, patterns, or clusters, as noted by Tyner (2017). Just like vertex color, the shape of vertices contributes to both aesthetic appeal and data distinction, and Grapov and Newman (2012) exemplify how a combination of vertex shape, size, and color can effectively differentiate different data points. Finally, the width of edges plays a vital role in displaying the strength of connections between vertices, allowing users to comprehend the varying degrees of connection intensity. Lin (2018) provides an example where edge widths are proportional to other measured aspects in the study. In conclusion, by thoughtfully considering these diverse components and utilizing them skillfully, network visualization can become a powerful tool for users to better understand intricate relationships within their data.
 
 # Start to finish examples
 
