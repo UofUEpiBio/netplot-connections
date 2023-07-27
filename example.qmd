@@ -54,11 +54,7 @@ One of the important aspects of network visualization is the layout algorithm us
 
 Another aspect that must be considered is the graphing parameters. One aspect of graphing is vertex size, which can effectively convey varying weights and changes in information, as demonstrated by @zien_multilevel_1999 and the study of @sharma_accelerate_2022 where vertex size is determined by the number of outgoing edges. Additionally, vertex size can be employed to illustrate increases or decreases in data, such as counts, as observed by @knisley_seeing_2014. The color of vertices is equally significant, not only for enhancing visual appeal but also for aiding in the differentiation of objects or levels [@ognyanova_network_nodate]. Furthermore, vertex color can assist in visualizing groupings, patterns, or clusters [@tyner_network_2017]. Just like vertex color, the shape of vertices contributes to both aesthetic appeal and data distinction, and @grapov_imdev_2012 exemplify how a combination of vertex shape, size, and color can effectively differentiate different data points. Finally, the width of edges plays a vital role in displaying the strength of connections between vertices, allowing users to comprehend the varying degrees of connection intensity. @lin_quantifying_2018 provides an example where edge widths are proportional to other measured aspects in the study. By thoughtfully considering these diverse components and utilizing them skillfully, network visualization can become a powerful tool for users to better understand intricate relationships within their data.
 
-**type of the network (egocentric, small, large, bipartite, etc.)**
-- egocentric network
-- small network
-- large network
-- bipartite network
+The type of data needs to be taken into consideration as well. Egocentric data encompasses diverse types of social network measurements, including degrees of mesh [@barnes_class_1954], level of knittedness [@bott_conjugal_2002], local or cosmopolitan orientation [@merton_social_1968], strength of ties [@granovetter_strength_1973], family or friend networks [@wellman_community_1979], and more. These measurements revolve around the social relationships surrounding a central individual's immediate context, offering insights into their social status and the flow of information, support, or resources [@marsden_advances_2023]. Examples of its applications range from health-related topics [@burgette_best_2021] and social behaviors (Carrasco, 2008) to ecological data (Mascareno, 2020) and beyond. Additionally, network analysis involves small networks that exhibit high clustering and short characteristic path lengths, such as those found in medical aspects like brain networks (Bassett, 2006), location aspects like electric power grids or airport connections (Amaral, 2000), and social connections (Newman, 2000), among others. On the other end of the spectrum, large networks comprise billions of nodes and edges, capturing connections within a community and include examples like social media platforms, mobile phone networks, and website connections (Blondel, 2008). Furthermore, bipartite networks, which model relationships between two distinct sets of entities, find applications in various fields, including microbiology topics (Corel, 2018), plant-animal mutualistic networks (Jordano), and artistic collaboration networks (Uzzi, 2005), among others (Banerjee, 2017). Understanding these different types of data and their applications provides valuable insights into the complexities of interconnected systems.
 
 # Start to finish examples
 
@@ -72,7 +68,7 @@ In this section, we will present two full-length examples of network visualizati
 library(igraph)
 library(data.table)
 library(devtools)
-install_github("USCCANA/netplot")
+#install_github("USCCANA/netplot")
 library(netplot)
 ```
 
