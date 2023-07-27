@@ -69,6 +69,8 @@ In this section, we will present two full-length examples of network visualizati
 #| message: false
 library(igraph)
 library(data.table)
+library(devtools)
+install_github("USCCANA/netplot")
 library(netplot)
 ```
 
