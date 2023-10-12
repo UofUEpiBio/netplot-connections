@@ -539,26 +539,30 @@ set.seed(1231)
 palette(c("gray40", "red3"))
 
 for (i in 1:2) {  # Change the loop range to 1:2
+  
   # Checks if the vertex "is_actor" exists in the network
   is_health_care_provider <- networks[[i]] %v% "is_actor"
   nets[[i]] <- nplot(
+    # Passing the ith network
     networks[[i]],
+    
     # Colors the vertices gray if HCP exists, red otherwise
     vertex.color      = ~ is_actor,
-    # Makes vertices square if HCP exists, round otherwise
     vertex.nsides     = ifelse(is_health_care_provider, 4, 10),
-    # Makes HCP vertices larger than patient vertices
     vertex.size       = ifelse(is_health_care_provider, .25, .15),
     vertex.size.range = c(.015, .065),
     edge.width.range  = c(.25, .5),
+    
     # Sets edge line breaks to 1 and colors edges black
     edge.line.breaks  = 1,
     edge.color        = ~ ego(alpha = 1, col = "lightgray") + 
                               alter(alpha = 1, col = "lightgray"),
     edge.curvature    = pi / 6,
+    
     # Removes vertex labels
     vertex.label      = NULL
   )
+  
 }
 
 # Combines the 2 plots into a 1x2 grid
