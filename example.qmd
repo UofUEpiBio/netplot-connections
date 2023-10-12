@@ -182,11 +182,11 @@ To use the data, we need to remove all of the 'N/A's and miscoding in the datase
 #| message: false
 # Filter out 'N/A's in 'id' and 'contactId' 
 interactions <- interactions[
-  complete.cases(id, contactId)
-  ]
+                             complete.cases(id, contactId)
+                            ]
                              
 # Keeping students with valid gender data
-students <- students[gender %in% c(0, 1)]
+students     <- students[gender %in% c(0, 1)]
 ```
 
 Also, we see a large number of students who only have interactions with themselves (they do not interact with anyone else throughout the day), so isolates need to be removed to make it easier to read. 
@@ -197,12 +197,12 @@ Also, we see a large number of students who only have interactions with themselv
 #| label: remove_isolates
 #| warning: false
 # Which connections are not OK?
-ids <- students[, sort(unique(id))]
+ids           <- students[, sort(unique(id))]
 
 # narrowed our data from 10781 to 5150
 interactions  <- interactions[
-  (id %in% ids) & (contactId %in% ids)
-  ]
+                  (id %in% ids) & (contactId %in% ids)
+                 ]
 ```
 
 After, the two datasets need to be combined.
@@ -221,10 +221,10 @@ setcolorder(interactions, c("id", "contactId"))
 
 # Creating an igraph object
 net <- graph_from_data_frame(
-  vertices = students,
-  d        = interactions,
-  directed = FALSE
-  )
+        vertices = students,
+        d        = interactions,
+        directed = FALSE
+       )
 ```
 
 We got our first error: `"Duplicated vertex names"`. There are a few ways in which we can inspect the duplicated vertex names. One we prefer is tagging the observations using a combination of the `.N` and `by` in `data.table`:
@@ -251,10 +251,10 @@ We solved the issue, now, we can try to create the graph again:
 ```{r}
 ## Creating an igraph object
 net <- graph_from_data_frame(
-  vertices = students,
-  d        = interactions,
-  directed = FALSE
-  )
+        vertices = students,
+        d        = interactions,
+        directed = FALSE
+       )
 
 # Inspecting the resulting graph
 print(net)
@@ -285,9 +285,9 @@ Before we jump into drawing the network, a good practice is to pre-calculate and
 #| error: true
 ## Getting only connected individuals
 net_with_no_isolates  <- subgraph(
-  graph = net,
-  which(degree(net) > 0)
-  )
+                          graph = net,
+                          which(degree(net) > 0)
+                         )
 ```
 
 What just happened? The 
@@ -301,9 +301,9 @@ Finally, we plot it, effectively showing this network graph.
 #| warning: false
 #| message: false
 net_with_no_isolates  <- subgraph(
-  graph = net,
-  vids  = which(igraph::degree(net) > 0)
-  )
+                          graph = net,
+                          vids  = which(igraph::degree(net) > 0)
+                         )
 
 ## Plot with no isolates
 set.seed(3)
@@ -317,7 +317,7 @@ nplot(
 
 Here, we are taking the data set and the plot, letting us customize many aspects of the graph. This is the same data that we used to create the plot above, but now adjustments to the nodes will be made. 
 
-- Color the vertices ('vertex.color') according to the grade the student is in (with 7th graders being gray and 8th graders being red).
+- Color the vertices ('vertex.color') according to the grade the student is in (with 7th graders being black and 8th graders being gray).
 
 - Adjust the shape of the vertices ('vertex.nsides'). If the student is a 7th grader, the vertices will be a circle, but if they are not, the vertices will be a triangle.
 
@@ -333,16 +333,12 @@ Here, we are taking the data set and the plot, letting us customize many aspects
 #| message: false
 
 set.seed(3)
-grades   <- nplot(
-  net_with_no_isolates,
-  vertex.color         = ~ grade,
-  vertex.nsides        = ifelse(
-    V(net_with_no_isolates)$grade == 7, 10, 3
-    ),
-  vertex.size.range    = c(0.015, 0.020),
-  vertex.label         = NULL)
-
-print(grades)
+nplot(
+ net_with_no_isolates,
+ vertex.color         = ~ grade,
+ vertex.nsides        = ifelse(V(net_with_no_isolates)$grade == 7, 10, 3),
+ vertex.size.range    = c(0.015, 0.020),
+ vertex.label         = NULL)
 ```
 
 This looks good, but lets alternate these parameters we just gave to make things have a different look.
@@ -368,16 +364,13 @@ This looks good, but lets alternate these parameters we just gave to make things
 #| warning: false
 #| message: false
 # Create a color palette using RColorBrewer
-# brewer.pal(3, "Set1")
 palette(c("#E41A1C", "#377EB8", "#4DAF4A"))
 
 set.seed(3)
 nplot(
   net_with_no_isolates,
   vertex.color           = ~ grade,
-  vertex.nsides          = ifelse(
-    V(net_with_no_isolates)$grade == 7, 8, 6
-    ),
+  vertex.nsides          = ifelse(V(net_with_no_isolates)$grade == 7, 8, 6),
   vertex.size.range      = c(0.01, 0.011),
   vertex.label.fontsize  = 10,
   vertex.label.show      = .25,
@@ -433,8 +426,7 @@ grades <- nplot(
   vertex.label     = NULL,
   edge.width.range = c(1,1),
   vertex.color     = ~ grade,
-  edge.color       = ~
-    ego(alpha = 0.5) + alter(alpha = 0.5),
+  edge.color       = ~ ego(alpha = 0.5) + alter(alpha = 0.5),
   edge.curvature   = 0,
   edge.line.lty    = 5
   )
@@ -462,8 +454,8 @@ Using the same plot that we originally created, we can also adjust some of the a
 set.seed(3)
 nplot(
   net_with_no_isolates,
-  vertex.label=NULL,
-  bg.col = "slategray1",
+  vertex.label = NULL,
+  bg.col       = "slategray1",
   sample.edges = .5) 
 ```
 
@@ -548,21 +540,15 @@ for (i in 1:2) {  # Change the loop range to 1:2
     # Colors the vertices gray if HCP exists, red otherwise
     vertex.color      = ~ is_actor,
     # Makes vertices square if HCP exists, round otherwise
-    vertex.nsides     = ifelse(
-      is_health_care_provider, 4, 10
-      ),
+    vertex.nsides     = ifelse(is_health_care_provider, 4, 10),
     # Makes HCP vertices larger than patient vertices
-    vertex.size       = ifelse(
-      is_health_care_provider, .25, .15
-      ),
+    vertex.size       = ifelse(is_health_care_provider, .25, .15),
     vertex.size.range = c(.015, .065),
     edge.width.range  = c(.25, .5),
     # Sets edge line breaks to 1 and colors edges black
     edge.line.breaks  = 1,
-    edge.color        = ~
-      ego(alpha = 1, col = "lightgray") +
-      alter(alpha = 1, col = "lightgray")
-      ,
+    edge.color        = ~ ego(alpha = 1, col = "lightgray") + 
+                              alter(alpha = 1, col = "lightgray"),
     edge.curvature    = pi / 6,
     # Removes vertex labels
     vertex.label      = NULL
@@ -571,8 +557,8 @@ for (i in 1:2) {  # Change the loop range to 1:2
 
 # Combines the 2 plots into a 1x2 grid
 allgraphs <- gridExtra::grid.arrange(
-  grobs = nets, nrow = 1, ncol = 2
-  )
+              grobs = nets, nrow = 1, ncol = 2
+             )
 ```
 
 Here, the healthcare provider is represented by gray diamonds, while the patients are represented by red circles. 
@@ -615,19 +601,19 @@ for (i in 1:2) {  # Change the loop range to 1:2
   nets[[i]] <- nplot(
     networks[[i]],
     # Colors the vertices gray if HCP exists, red otherwise
-    vertex.color = ~ is_actor,
+    vertex.color      = ~ is_actor,
     # Makes vertices square if HCP exists, round otherwise
-    vertex.nsides = ifelse(is_health_care_provider == TRUE, 3, 6),
+    vertex.nsides     = ifelse(is_health_care_provider == TRUE, 3, 6),
     # Makes HCP vertices larger than patient vertices
-    vertex.size   = ifelse(is_health_care_provider == TRUE, .25, .15),
+    vertex.size       = ifelse(is_health_care_provider == TRUE, .25, .15),
     vertex.size.range = c(.015, .065),
-    edge.width.range = c(.25, .5),
+    edge.width.range  = c(.25, .5),
     # Sets edge line breaks to 1 and colors edges black
-    edge.line.breaks = 6,
-    edge.color = ~ego(alpha = .8, col = "black") + alter(alpha = .8, col = "black"),
-    edge.curvature = pi / 3,
+    edge.line.breaks  = 6,
+    edge.color        = ~ego(alpha = .8, col = "black") + alter(alpha = .8, col = "black"),
+    edge.curvature    = pi / 3,
     # Removes vertex labels
-    vertex.label = NULL
+    vertex.label      = NULL
   )
 }
 
@@ -666,20 +652,15 @@ for (i in 1:99) {
     # Colors the vertices gray if HCP exists, red otherwise
     vertex.color     = ~ is_actor,  
     # Makes vertices square if HCP exists, round otherwise
-    vertex.nsides    = ifelse(
-      is_health_care_provider == TRUE, 4, 10
-      ),
+    vertex.nsides    = ifelse(is_health_care_provider == TRUE, 4, 10),
     # Makes HCP vertices larger than patient vertices
-    vertex.size      = ifelse(
-      is_health_care_provider == TRUE, .25, .15
-      ),
+    vertex.size      = ifelse(is_health_care_provider == TRUE, .25, .15),
     vertex.size.range = c(.015,.065),
     edge.width.range  = c(.25,.5),
     # Sets edge line breaks to 1 and colors edges black  
     edge.line.breaks  = 1,
-    edge.color = ~
-      ego(alpha = 1, col = "lightgray") +
-      alter(alpha = 1, col = "lightgray"),
+    edge.color        = ~ego(alpha = 1, col = "lightgray") + 
+                             alter(alpha = 1, col = "lightgray"),
     edge.curvature    = pi/6,
     # Removes vertex labels
     vertex.label      = NULL
