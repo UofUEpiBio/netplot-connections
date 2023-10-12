@@ -8,6 +8,12 @@ keep-tex: true
 bibliography: bibliography.bib
 ---
 
+```{r}
+#| echo: false
+options(width = 60)
+```
+
+
 <!-- \usepackage{lipsum} -->
 
 <!-- \usepackage[american]{babel} -->
