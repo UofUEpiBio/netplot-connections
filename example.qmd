@@ -170,8 +170,10 @@ First, the data needs to be pulled in. After we pull it in, let's glimpse what t
 #| message: false
 
 # loading and cleaning data
-students      <- fread("students.csv")
-interactions  <- fread("interactions.csv")
+students <- 
+  fread("students.csv")
+interactions <- 
+  fread("interactions.csv")
 
 head(students)
 head(interactions)
@@ -187,12 +189,12 @@ To use the data, we need to remove all of the 'N/A's and miscoding in the datase
 #| warning: false
 #| message: false
 # Filter out 'N/A's in 'id' and 'contactId' 
-interactions <- interactions[
-                             complete.cases(id, contactId)
-                            ]
+interactions <- 
+  interactions[complete.cases(id, contactId)]
                              
 # Keeping students with valid gender data
-students     <- students[gender %in% c(0, 1)]
+students <- 
+  students[gender %in% c(0, 1)]
 ```
 
 Also, we see a large number of students who only have interactions with themselves (they do not interact with anyone else throughout the day), so isolates need to be removed to make it easier to read. 
@@ -203,12 +205,14 @@ Also, we see a large number of students who only have interactions with themselv
 #| label: remove_isolates
 #| warning: false
 # Which connections are not OK?
-ids           <- students[, sort(unique(id))]
+ids <- 
+  students[, sort(unique(id))]
 
 # narrowed our data from 10781 to 5150
-interactions  <- interactions[
-                  (id %in% ids) & (contactId %in% ids)
-                 ]
+interactions <- 
+  interactions[
+    (id %in% ids) & (contactId %in% ids)
+   ]
 ```
 
 After, the two datasets need to be combined.
@@ -290,14 +294,12 @@ Before we jump into drawing the network, a good practice is to pre-calculate and
 ```{r}
 #| error: true
 ## Getting only connected individuals
-net_with_no_isolates  <- subgraph(
-                          graph = net,
-                          which(degree(net) > 0)
-                         )
+net_with_no_isolates <- 
+  subgraph(
+   graph = net,
+   which(degree(net) > 0)
+  )
 ```
-
-What just happened? The 
-
 
 Finally, we plot it, effectively showing this network graph. 
 ```{r}
@@ -306,10 +308,11 @@ Finally, we plot it, effectively showing this network graph.
 #| label: plot_school1
 #| warning: false
 #| message: false
-net_with_no_isolates  <- subgraph(
-                          graph = net,
-                          vids  = which(igraph::degree(net) > 0)
-                         )
+net_with_no_isolates  <- 
+  subgraph(
+    graph = net,
+    vids  = which(igraph::degree(net) > 0)
+  )
 
 ## Plot with no isolates
 set.seed(3)
@@ -323,10 +326,9 @@ nplot(
 
 Here, we are taking the data set and the plot, letting us customize many aspects of the graph. This is the same data that we used to create the plot above, but now adjustments to the nodes will be made. 
 
-- Color the vertices ('vertex.color') according to the grade the student is in (with 7th graders being black and 8th graders being gray).
+- Color the vertices ('vertex.color') according to the grade the student is in. This can be accomplished according by setting 'vertex.color' to be equal to grade as a function ('~ grade').
 
-- Adjust the shape of the vertices ('vertex.nsides'). If the student is a 7th grader, the vertices will be a circle, but if they are not, the vertices will be a triangle.
-
+- Adjust the shape of the vertices ('vertex.nsides'). Again, this can be accomplished by setting 'vertex.nsides' to be equal to a function of grade ('~ grade').
 - Adjust size of vertices ('vertex.size.range'). 
 
 - Remove the labels of the nodes. 
@@ -342,7 +344,7 @@ set.seed(3)
 nplot(
  net_with_no_isolates,
  vertex.color         = ~ grade,
- vertex.nsides        = ifelse(V(net_with_no_isolates)$grade == 7, 10, 3),
+ vertex.nsides        = ~ grade,
  vertex.size.range    = c(0.015, 0.020),
  vertex.label         = NULL)
 ```
@@ -370,13 +372,15 @@ This looks good, but lets alternate these parameters we just gave to make things
 #| warning: false
 #| message: false
 # Create a color palette using RColorBrewer
-palette(c("#E41A1C", "#377EB8", "#4DAF4A"))
+palette(c("#a6a55e", "#8f56ba", "#76b0b0"))
+#grade_sides <- c(3,4)
 
 set.seed(3)
 nplot(
   net_with_no_isolates,
   vertex.color           = ~ grade,
-  vertex.nsides          = ifelse(V(net_with_no_isolates)$grade == 7, 8, 6),
+  vertex.nsides          = ~ grade,
+  #vertex.nsides          = ~ grade_sides[as.numeric(grade)],
   vertex.size.range      = c(0.01, 0.011),
   vertex.label.fontsize  = 10,
   vertex.label.show      = .25,
