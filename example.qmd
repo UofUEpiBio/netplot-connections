@@ -371,21 +371,54 @@ This looks good, but lets alternate these parameters we just gave to make things
 #| label: grade_vertices1
 #| warning: false
 #| message: false
+
+#| echo: true
+#| include: true
+#| label: grade_vertices1
+#| warning: false
+#| message: false
 # Create a color palette using RColorBrewer
 palette(c("#a6a55e", "#8f56ba", "#76b0b0"))
-#grade_sides <- c(3,4)
+
+ grade_nsides <- c("square", "triangle") 
+# names(grade_nsides) <- c(7, 8)
+
+#grade_nsides <- c(4, 3) 
+#names(grade_nsides) <- c(7, 8)
+
+#grade_nsides <- grade_nsides[as.character(net_with_no_isolates %v% "grade")]
+
 
 set.seed(3)
 nplot(
   net_with_no_isolates,
   vertex.color           = ~ grade,
-  vertex.nsides          = ~ grade,
-  #vertex.nsides          = ~ grade_sides[as.numeric(grade)],
+  vertex.nsides          = grade_nsides,
   vertex.size.range      = c(0.01, 0.011),
   vertex.label.fontsize  = 10,
   vertex.label.show      = .25,
   vertex.frame.color     = "black"
   )
+
+## Create a color palette using RColorBrewer
+#palette(c("#a6a55e", "#8f56ba", "#76b0b0"))
+#
+## Define the number of sides for each grade
+#grades <- unique(net_with_no_isolates %v% "grade")
+#grade_nsides <- c(4, 3)  # Define the number of sides for each grade
+#names(grade_nsides) <- grades  # Assign the number of sides to grades
+#
+#set.seed(3)
+#nplot(
+#  net_with_no_isolates,
+#  vertex.color           = ~ grade,
+#  vertex.nsides          = grade_nsides[as.character(net_with_no_isolates %v% "grade")],
+#  vertex.size.range      = c(0.01, 0.011),
+#  vertex.label.fontsize  = 10,
+#  vertex.label.show      = .25,
+#  vertex.frame.color     = "black"
+#)
+
 ```
 
 ### Edge Options
