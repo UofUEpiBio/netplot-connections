@@ -289,6 +289,8 @@ Before we jump into drawing the network, a good practice is to pre-calculate and
 
 ```{r}
 #| error: true
+#| warning: false
+#| message: false
 ## Getting only connected individuals
 net_with_no_isolates <- 
   subgraph(
@@ -351,7 +353,7 @@ This looks good, but lets alternate these parameters we just gave to make things
 
 - Change `vertex.colors` to be tied to a color palette. 
 
-- Adjust `vertex.nsides` to make 7th graders be an octagon and 8th graders be a hexagon. 
+- Adjust `vertex.nsides` to make 7th graders be a square and 8th graders be a pentagon 
 
 - Adjust `vertex.size.range`, making the vertices smaller.
 
@@ -372,10 +374,7 @@ This looks good, but lets alternate these parameters we just gave to make things
 # Create a color palette using RColorBrewer
 palette(c("#0003C9", "#8f56ba", "#76b0b0"))
 
- grade_nsides <- c("octagon", "hexagon") 
- names(grade_nsides) <- c(7, 8)
-
-grade_nsides <- c(4, 3) 
+grade_nsides <- c(4, 5) 
 names(grade_nsides) <- c(7, 8)
 
 grade_nsides <- grade_nsides[
