@@ -12,7 +12,7 @@ bibliography: bibliography.bib
 #| label: setup
 #| echo: false
 knitr::opts_chunk$set(warning = FALSE, message = FALSE)
-options(width = 50)
+options(width = 45)
 ```
 
 
@@ -101,12 +101,10 @@ UKfaculty_df <- as_data_frame(UKfaculty)
 # Create ggplot graph
 gg <- ggraph(UKfaculty_df, layout = "fr") + 
   geom_edge_link() +
-  geom_node_point() +
-  geom_node_text(aes(label = name), repel = TRUE)
+  geom_node_point()
 
 # Plot the graph
 print(gg)
-
 ```
 
 `netplot`[@netplot] was created as an alternative option for plotting network data to those mentioned above. It is built on the grid plotting system (the same as `ggplot`), with the "under-the-hood" parameters being coded with C++, making it extremely fast. Like `ggplot`, its focus is mainly on aesthetics, providing beautiful visualizations right out of the box. All parameters of the graphs can be completely customized, allowing each visualization to perfectly express its individual goals. Using the same network as the other packages above, here is a plot using `netplot`:
@@ -256,7 +254,7 @@ net <- graph_from_data_frame(
   )
 
 # Inspecting the resulting graph
-print(net)
+net
 ```
 
 Success! We have a graph with 638 nodes and 5150 edges. The igraph object also features important information:
@@ -392,8 +390,7 @@ nplot(
   net_with_no_isolates,
   vertex.label     = NULL,
   edge.width.range = c(.25,1),
-  edge.color       = "dodgerblue4",
-  edge.color.alpha = .33
+  edge.color       = "dodgerblue4"
   )
 ```
 
@@ -534,8 +531,8 @@ for (i in 1:2) {
 }
 
 allgraphs <- gridExtra::grid.arrange(
-              grobs = nets, nrow = 1, ncol = 2
-             )
+  grobs = nets, nrow = 1, ncol = 2
+  )
 ```
 
 Here, the healthcare provider is represented by gray diamonds, while the patients are represented by red circles. 
